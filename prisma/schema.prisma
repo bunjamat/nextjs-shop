@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model category {
+  type_id     Int    @id @default(autoincrement())
+  type_name   String @db.VarChar(100) @unique
+  type_status Int    @default(1)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model orders {
+  order_id          Int      @id @default(autoincrement())
+  user_id           Int
+  order_fname       String   @db.VarChar(120)
+  order_lname       String   @db.VarChar(120)
+  order_phone       String   @db.VarChar(20)
+  order_email       String   @db.VarChar(150)
+  order_address     String   @db.Text
+  order_grandtotal  Float    @db.Float
+  order_paymentslip String   @db.VarChar(50)
+  order_payment     Int
+  order_shipping    Int
+  order_create      DateTime @db.DateTime(0)
+  order_approve     Int      @default(0)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model orders_items {
+  detail_id  Int @id @default(autoincrement())
+  order_id   Int
+  product_id Int
+  quantity   Int
+  sub_total  Int
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model products {
+  product_id         Int    @id @default(autoincrement())
+  product_name       String @db.VarChar(50)
+  description        String @db.Text
+  product_price      Int
+  product_sale_price Int
+  product_status     Int    @default(1)
+  product_img        String @db.VarChar(100)
+  category           Int
+  stock              Int
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model users {
+  us_id         Int      @id @default(autoincrement())
+  us_username   String   @db.VarChar(20) @unique
+  us_password   String   @db.VarChar(50)
+  us_fname      String   @db.VarChar(120)
+  us_lname      String   @db.VarChar(120)
+  us_email      String   @db.VarChar(100)
+  us_address    String   @db.Text
+  us_phone      String   @db.VarChar(10)
+  us_createdate DateTime @db.DateTime(0)
+  us_role       Int
+}
